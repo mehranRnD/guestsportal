@@ -7,11 +7,25 @@ function App() {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    setParams({
+    const parsed = {
       client_mac: urlParams.get("id") || "unknown",
       ap_mac: urlParams.get("ap") || "unknown",
       redirect: urlParams.get("url") || "/",
+      ssid: urlParams.get("ssid") || "unknown",
+      t: urlParams.get("t") || "",
+    };
+
+    // ✅ Debug log (will show in browser console)
+    const decodedUrl = decodeURIComponent(parsed.redirect);
+    console.log({
+      client_mac: parsed.client_mac,
+      ap_mac: parsed.ap_mac,
+      ssid: parsed.ssid,
+      t: parsed.t,
+      decodedUrl,
     });
+
+    setParams(parsed);
   }, []);
 
   const handleSubmit = (e) => {
@@ -43,6 +57,7 @@ function App() {
           <p>✅ Code accepted: {token}</p>
           <p>📡 Client MAC: {params.client_mac}</p>
           <p>📶 AP MAC: {params.ap_mac}</p>
+          <p>📡 SSID: {params.ssid}</p>
           <a href={params.redirect}>Continue</a>
         </div>
       )}
